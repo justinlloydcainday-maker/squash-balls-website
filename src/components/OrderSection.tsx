@@ -1,151 +1,181 @@
 import { useState } from 'react';
-import { ShoppingBag, Facebook, Copy, Check, Sparkles, MapPin, Calendar, Clock, Receipt, CheckCircle2 } from 'lucide-react';
+import { ShoppingBag, Copy, Check, CheckCircle2, MessageSquare, Facebook } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { BUSINESS_INFO } from '../data/businessData';
 
 export default function OrderSection() {
   const [quantity, setQuantity] = useState<number>(3);
-  const [selectedDip, setSelectedDip] = useState<string>('Mayo-Ketchup Swirl');
-  const [servingStyle, setServingStyle] = useState<'cups' | 'drizzled'>('cups');
+  const [selectedDip, setSelectedDip] = useState<string>('Garlic Mayo');
   const [pickupDay, setPickupDay] = useState<'Tuesday' | 'Thursday'>('Tuesday');
   const [customerName, setCustomerName] = useState<string>('');
-  const [customerSection, setCustomerSection] = useState<string>('');
   const [customerContact, setCustomerContact] = useState<string>('');
-  const [copied, setCopied] = useState<boolean>(false);
   const [orderPlaced, setOrderPlaced] = useState<boolean>(false);
+  const [copied, setCopied] = useState<boolean>(false);
 
   const totalPrice = quantity * BUSINESS_INFO.pricePerPiece;
 
-  const orderSummaryText = `🍢 SQUASH CHEESY BALLS ORDER SLIP
-──────────────────────────────
-• Customer: ${customerName || 'Walk-in Student/Customer'}
-• Dept / Year: ${customerSection || 'ESSU Borongan Campus'}
-• Contact: ${customerContact || 'N/A'}
-• Quantity: ${quantity} pcs (@ ₱10/pc)
-• Selected Dip: ${selectedDip}
-• Serving Style: ${servingStyle === 'cups' ? 'Dip on the side (cup)' : 'Drizzled on top'}
-• Pickup Day: ${pickupDay} (ESSU Main Campus, Maypangdan)
-──────────────────────────────
-TOTAL AMOUNT: ₱${totalPrice.toFixed(2)}
-"Crispy outside, Cheesy inside!"`;
+  const orderSlip = `🍢 SQUASH CHEESY BALLS PRE-ORDER
+Name: ${customerName || 'Walk-in Student'}
+Contact/Room: ${customerContact || 'ESSU Borongan Campus'}
+Quantity: ${quantity} pcs (₱10/pc)
+Dip: ${selectedDip}
+Pickup Day: ${pickupDay} (Maypangdan Campus)
+Total: ₱${totalPrice.toFixed(2)}`;
 
-  const handleCopyOrder = () => {
-    navigator.clipboard.writeText(orderSummaryText);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2500);
+  const handleSubmitOrder = (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      confetti({
+        particleCount: 60,
+        spread: 60,
+        origin: { y: 0.6 },
+      });
+    } catch {
+      // safe fallback if canvas not available
+    }
+    setOrderPlaced(true);
   };
 
-  const handleFacebookOrder = () => {
-    // Copy the order details to clipboard for convenience
-    navigator.clipboard.writeText(orderSummaryText);
-    
-    // Trigger celebratory confetti
-    confetti({
-      particleCount: 80,
-      spread: 70,
-      origin: { y: 0.6 },
-    });
-
-    setOrderPlaced(true);
-
-    // Open the Facebook page in new tab
-    window.open(BUSINESS_INFO.facebookShareUrl, '_blank', 'noopener,noreferrer');
+  const handleCopy = () => {
+    navigator.clipboard.writeText(orderSlip);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
   };
 
   return (
-    <section id="order" className="py-20 bg-gradient-to-b from-white to-[#fffbf2] border-b border-stone-200/80">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="order" className="py-16 sm:py-20 bg-white border-b border-stone-200">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Section Heading */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-100 text-amber-800 text-xs font-bold uppercase tracking-wider mb-3">
-            <ShoppingBag className="w-3.5 h-3.5" />
-            Pre-Order & Campus Reserve
-          </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-stone-900 tracking-tight font-heading">
-            Order Now
+        {/* Header */}
+        <div className="text-center max-w-xl mx-auto mb-10">
+          <p className="text-xs font-semibold text-amber-700 uppercase tracking-wider">
+            Campus Orders
+          </p>
+          <h2 className="text-3xl sm:text-4xl font-black text-stone-900 tracking-tight font-heading mt-1">
+            Pre-Order for Campus Pickup
           </h2>
-          <div className="w-16 h-1 bg-amber-500 mx-auto mt-3 mb-4 rounded-full" />
-          <p className="text-stone-600 text-base sm:text-lg leading-relaxed">
-            Ready to try Squash Cheesy Balls? Configure your order below, generate your order slip, and confirm with us via our Facebook page or on-campus pick-up.
+          <p className="text-stone-600 text-sm mt-1">
+            Freshly fried upon reservation every Tuesday and Thursday at ESSU Main Campus.
           </p>
         </div>
 
-        {/* Order Builder & Live Receipt Container */}
-        <div className="max-w-5xl mx-auto bg-white rounded-3xl border-2 border-amber-200/90 shadow-xl overflow-hidden">
-          <div className="grid grid-cols-1 lg:grid-cols-12">
-            
-            {/* Left Column: Order Customizer Form */}
-            <div className="lg:col-span-7 p-6 sm:p-10 space-y-6">
-              
-              {/* Quantity Picker */}
-              <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-stone-500 mb-2">
-                  1. Select Quantity (₱10.00 each)
-                </label>
-                
-                {/* Preset Chips */}
-                <div className="grid grid-cols-4 gap-2 mb-3">
-                  {[1, 3, 5, 10].map((qty) => (
-                    <button
-                      key={qty}
-                      type="button"
-                      onClick={() => setQuantity(qty)}
-                      className={`py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
-                        quantity === qty
-                          ? 'bg-amber-500 text-stone-950 shadow-sm'
-                          : 'bg-stone-100 text-stone-700 hover:bg-stone-200'
-                      }`}
-                    >
-                      {qty} {qty === 1 ? 'pc' : 'pcs'}
-                    </button>
-                  ))}
-                </div>
+        {orderPlaced ? (
+          <div className="border border-emerald-200 bg-emerald-50/40 p-8 rounded-2xl text-center space-y-4 max-w-md mx-auto">
+            <div className="w-12 h-12 bg-emerald-100 text-emerald-700 rounded-full flex items-center justify-center mx-auto">
+              <CheckCircle2 className="w-6 h-6" />
+            </div>
+            <div>
+              <h3 className="font-bold text-stone-900 text-lg font-heading">
+                Order Slip Created!
+              </h3>
+              <p className="text-xs text-stone-600 mt-1">
+                Your reservation for <strong>{quantity} pieces (₱{totalPrice.toFixed(2)})</strong> has been generated for {pickupDay}.
+              </p>
+            </div>
 
-                {/* Custom Counter */}
-                <div className="flex items-center justify-between bg-stone-50 border border-stone-200 rounded-2xl p-2 px-4">
-                  <span className="text-xs text-stone-600 font-medium">Custom Quantity:</span>
-                  <div className="flex items-center gap-3">
-                    <button
-                      type="button"
-                      onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                      className="w-8 h-8 rounded-lg bg-white border border-stone-300 font-bold text-stone-700 hover:bg-stone-100 flex items-center justify-center cursor-pointer"
-                    >
-                      -
-                    </button>
-                    <span className="w-8 text-center font-black text-stone-900 font-heading text-lg">
-                      {quantity}
-                    </span>
-                    <button
-                      type="button"
-                      onClick={() => setQuantity(quantity + 1)}
-                      className="w-8 h-8 rounded-lg bg-white border border-stone-300 font-bold text-stone-700 hover:bg-stone-100 flex items-center justify-center cursor-pointer"
-                    >
-                      +
-                    </button>
-                  </div>
-                </div>
+            <div className="bg-white border border-stone-200 p-3.5 rounded-xl text-left text-xs font-mono text-stone-800 whitespace-pre-line">
+              {orderSlip}
+            </div>
+
+            <div className="flex flex-col sm:flex-row gap-2 pt-2">
+              <button
+                onClick={handleCopy}
+                className="flex-1 inline-flex items-center justify-center gap-1.5 bg-stone-900 hover:bg-stone-800 text-white text-xs font-bold py-2.5 px-4 rounded-lg transition-colors cursor-pointer"
+              >
+                {copied ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4 text-amber-400" />}
+                <span>{copied ? 'Copied to Clipboard!' : 'Copy Order Text'}</span>
+              </button>
+
+              <a
+                href={BUSINESS_INFO.facebookShareUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-1.5 bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold py-2.5 px-4 rounded-lg transition-colors"
+              >
+                <Facebook className="w-4 h-4" />
+                <span>Message on Facebook</span>
+              </a>
+            </div>
+
+            <button
+              onClick={() => setOrderPlaced(false)}
+              className="text-xs text-stone-500 hover:text-stone-800 underline block mx-auto cursor-pointer"
+            >
+              Place another order
+            </button>
+          </div>
+        ) : (
+          <form
+            onSubmit={handleSubmitOrder}
+            className="border border-stone-200 bg-[#fffefd] p-6 sm:p-8 rounded-2xl shadow-xs space-y-5"
+          >
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-xs font-bold text-stone-700 mb-1">
+                  Full Name / Student Name
+                </label>
+                <input
+                  type="text"
+                  required
+                  placeholder="e.g. Maria Santos"
+                  value={customerName}
+                  onChange={(e) => setCustomerName(e.target.value)}
+                  className="w-full text-xs px-3.5 py-2.5 rounded-lg border border-stone-300 focus:outline-none focus:border-amber-500"
+                />
               </div>
 
-              {/* Dipping Sauce Choice */}
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-stone-500 mb-2">
-                  2. Choose Complimentary Dipping Sauce
+                <label className="block text-xs font-bold text-stone-700 mb-1">
+                  Contact No. / Room / College
                 </label>
-                <div className="grid grid-cols-2 gap-2 text-xs">
-                  {[
-                    'Mayo-Ketchup Swirl',
-                    'Classic Garlic Mayo',
-                    'Sweet Chili Ketchup',
-                    'Cheese Powder Dusting',
-                  ].map((dip) => (
+                <input
+                  type="text"
+                  placeholder="e.g. CCS Bldg / 0912 345 6789"
+                  value={customerContact}
+                  onChange={(e) => setCustomerContact(e.target.value)}
+                  className="w-full text-xs px-3.5 py-2.5 rounded-lg border border-stone-300 focus:outline-none focus:border-amber-500"
+                />
+              </div>
+            </div>
+
+            {/* Quantity Selector */}
+            <div>
+              <label className="block text-xs font-bold text-stone-700 mb-1.5">
+                Quantity (₱10.00 / piece)
+              </label>
+              <div className="flex items-center gap-2">
+                {[1, 2, 3, 5, 10].map((qty) => (
+                  <button
+                    key={qty}
+                    type="button"
+                    onClick={() => setQuantity(qty)}
+                    className={`flex-1 py-2 text-xs font-bold rounded-lg border transition-colors cursor-pointer ${
+                      quantity === qty
+                        ? 'bg-amber-400 border-amber-500 text-stone-900'
+                        : 'bg-white border-stone-200 text-stone-700 hover:bg-stone-50'
+                    }`}
+                  >
+                    {qty} pc{qty > 1 ? 's' : ''} (₱{qty * 10})
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Dip & Day */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-xs font-bold text-stone-700 mb-1.5">
+                  Choice of Dip
+                </label>
+                <div className="grid grid-cols-3 gap-2">
+                  {['Garlic Mayo', 'Sweet Ketchup', 'Spicy Chili'].map((dip) => (
                     <button
                       key={dip}
                       type="button"
                       onClick={() => setSelectedDip(dip)}
-                      className={`p-3 rounded-xl border text-left font-semibold transition-all cursor-pointer ${
+                      className={`py-2 text-[11px] font-semibold rounded-lg border transition-colors cursor-pointer text-center ${
                         selectedDip === dip
-                          ? 'bg-amber-50 border-amber-400 text-amber-950 font-bold shadow-2xs'
+                          ? 'bg-stone-900 border-stone-900 text-white'
                           : 'bg-white border-stone-200 text-stone-700 hover:bg-stone-50'
                       }`}
                     >
@@ -155,222 +185,44 @@ TOTAL AMOUNT: ₱${totalPrice.toFixed(2)}
                 </div>
               </div>
 
-              {/* Serving Style */}
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-stone-500 mb-2">
-                  3. Serving Style
+                <label className="block text-xs font-bold text-stone-700 mb-1.5">
+                  Pickup Day (Selling Schedule)
                 </label>
-                <div className="grid grid-cols-2 gap-2 text-xs">
-                  <button
-                    type="button"
-                    onClick={() => setServingStyle('cups')}
-                    className={`p-3 rounded-xl border text-center font-semibold transition-all cursor-pointer ${
-                      servingStyle === 'cups'
-                        ? 'bg-amber-500 text-stone-950 font-bold border-amber-400'
-                        : 'bg-stone-50 border-stone-200 text-stone-700'
-                    }`}
-                  >
-                    Separate Sauce Cup
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setServingStyle('drizzled')}
-                    className={`p-3 rounded-xl border text-center font-semibold transition-all cursor-pointer ${
-                      servingStyle === 'drizzled'
-                        ? 'bg-amber-500 text-stone-950 font-bold border-amber-400'
-                        : 'bg-stone-50 border-stone-200 text-stone-700'
-                    }`}
-                  >
-                    Drizzled Over Balls
-                  </button>
+                <div className="grid grid-cols-2 gap-2">
+                  {(['Tuesday', 'Thursday'] as const).map((day) => (
+                    <button
+                      key={day}
+                      type="button"
+                      onClick={() => setPickupDay(day)}
+                      className={`py-2 text-xs font-semibold rounded-lg border transition-colors cursor-pointer text-center ${
+                        pickupDay === day
+                          ? 'bg-amber-500 border-amber-600 text-stone-950 font-bold'
+                          : 'bg-white border-stone-200 text-stone-700 hover:bg-stone-50'
+                      }`}
+                    >
+                      {day}
+                    </button>
+                  ))}
                 </div>
               </div>
-
-              {/* Pickup Day */}
-              <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-stone-500 mb-2">
-                  4. Selling Day & Pickup
-                </label>
-                <div className="grid grid-cols-2 gap-2 text-xs">
-                  <button
-                    type="button"
-                    onClick={() => setPickupDay('Tuesday')}
-                    className={`p-3 rounded-xl border text-center font-semibold transition-all cursor-pointer flex items-center justify-center gap-2 ${
-                      pickupDay === 'Tuesday'
-                        ? 'bg-stone-900 text-white border-stone-900 font-bold'
-                        : 'bg-white border-stone-200 text-stone-700 hover:bg-stone-50'
-                    }`}
-                  >
-                    <Calendar className="w-3.5 h-3.5 text-amber-400" />
-                    <span>Every Tuesday</span>
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setPickupDay('Thursday')}
-                    className={`p-3 rounded-xl border text-center font-semibold transition-all cursor-pointer flex items-center justify-center gap-2 ${
-                      pickupDay === 'Thursday'
-                        ? 'bg-stone-900 text-white border-stone-900 font-bold'
-                        : 'bg-white border-stone-200 text-stone-700 hover:bg-stone-50'
-                    }`}
-                  >
-                    <Calendar className="w-3.5 h-3.5 text-amber-400" />
-                    <span>Every Thursday</span>
-                  </button>
-                </div>
-              </div>
-
-              {/* Optional Contact Inputs */}
-              <div className="space-y-3 pt-2">
-                <div>
-                  <label className="block text-xs font-bold text-stone-600 mb-1">
-                    Your Name (Student / Faculty / Buyer)
-                  </label>
-                  <input
-                    type="text"
-                    value={customerName}
-                    onChange={(e) => setCustomerName(e.target.value)}
-                    placeholder="e.g. Maria Santos"
-                    className="w-full text-xs px-3.5 py-2.5 rounded-xl border border-stone-300 focus:outline-none focus:border-amber-500 bg-stone-50/50"
-                  />
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  <div>
-                    <label className="block text-xs font-bold text-stone-600 mb-1">
-                      Department / Section
-                    </label>
-                    <input
-                      type="text"
-                      value={customerSection}
-                      onChange={(e) => setCustomerSection(e.target.value)}
-                      placeholder="e.g. BCSC-2A / Faculty"
-                      className="w-full text-xs px-3.5 py-2.5 rounded-xl border border-stone-300 focus:outline-none focus:border-amber-500 bg-stone-50/50"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-bold text-stone-600 mb-1">
-                      Contact Number / FB Name
-                    </label>
-                    <input
-                      type="text"
-                      value={customerContact}
-                      onChange={(e) => setCustomerContact(e.target.value)}
-                      placeholder="e.g. 0912-345-6789"
-                      className="w-full text-xs px-3.5 py-2.5 rounded-xl border border-stone-300 focus:outline-none focus:border-amber-500 bg-stone-50/50"
-                    />
-                  </div>
-                </div>
-              </div>
-
             </div>
 
-            {/* Right Column: Live Order Slip & Action Buttons */}
-            <div className="lg:col-span-5 bg-[#fffdf7] border-t lg:border-t-0 lg:border-l border-amber-200/80 p-6 sm:p-10 flex flex-col justify-between">
-              
-              <div>
-                <div className="flex items-center justify-between mb-4">
-                  <span className="text-xs font-bold uppercase tracking-wider text-amber-800 flex items-center gap-1.5">
-                    <Receipt className="w-4 h-4 text-amber-600" />
-                    Live Order Summary
-                  </span>
-                  <span className="text-[10px] bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full font-bold">
-                    Priced @ ₱10/pc
-                  </span>
-                </div>
-
-                {/* Printable Style Receipt Slip */}
-                <div className="bg-white border-2 border-dashed border-amber-300 rounded-2xl p-5 shadow-inner text-xs space-y-3 font-mono">
-                  <div className="text-center border-b border-stone-200 pb-2">
-                    <p className="font-bold text-stone-900 text-sm font-heading">SQUASH CHEESY BALLS</p>
-                    <p className="text-[10px] text-stone-400">ESSU Main Campus • Borongan City</p>
-                    <p className="text-[10px] text-amber-700">Crispy outside, Cheesy inside</p>
-                  </div>
-
-                  <div className="space-y-1 text-stone-700 text-[11px]">
-                    <div className="flex justify-between">
-                      <span>Customer:</span>
-                      <span className="font-bold text-stone-900 truncate max-w-[130px]">{customerName || 'Walk-in Customer'}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Pickup Day:</span>
-                      <span className="font-bold text-stone-900">{pickupDay}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Selected Dip:</span>
-                      <span className="font-bold text-stone-900">{selectedDip}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Style:</span>
-                      <span>{servingStyle === 'cups' ? 'Side Cup' : 'Drizzled'}</span>
-                    </div>
-                  </div>
-
-                  <div className="border-t border-stone-200 pt-2 flex justify-between items-baseline">
-                    <span className="font-sans font-bold text-stone-700 text-xs">
-                      {quantity} pcs × ₱10.00
-                    </span>
-                    <span className="font-sans font-black text-2xl text-stone-900 font-heading">
-                      ₱{totalPrice.toFixed(2)}
-                    </span>
-                  </div>
-
-                  <div className="text-[10px] text-center text-stone-400 pt-1">
-                    Thank you for supporting student entrepreneurship!
-                  </div>
-                </div>
-
-                {/* Pickup Instructions */}
-                <div className="mt-4 p-3.5 bg-amber-50/70 rounded-xl border border-amber-200 text-xs text-amber-900 space-y-1">
-                  <div className="flex items-center gap-1.5 font-bold">
-                    <MapPin className="w-3.5 h-3.5 text-amber-700 shrink-0" />
-                    <span>Pickup Location:</span>
-                  </div>
-                  <p className="text-[11px] text-stone-600 pl-5">
-                    Near College of Computer Studies / Main Building, ESSU Main Campus in Maypangdan, Borongan City.
-                  </p>
-                </div>
-              </div>
-
-              {/* Action Buttons */}
-              <div className="space-y-2.5 pt-6">
-                <button
-                  type="button"
-                  onClick={handleFacebookOrder}
-                  className="w-full inline-flex items-center justify-center gap-2.5 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 text-white py-3.5 px-4 rounded-xl font-bold text-sm shadow-md hover:shadow-lg transition-all cursor-pointer"
-                >
-                  <Facebook className="w-4 h-4 fill-white" />
-                  <span>ORDER THROUGH FACEBOOK</span>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={handleCopyOrder}
-                  className="w-full inline-flex items-center justify-center gap-2 bg-stone-900 hover:bg-stone-800 text-white py-2.5 px-4 rounded-xl font-semibold text-xs transition-colors cursor-pointer"
-                >
-                  {copied ? (
-                    <>
-                      <Check className="w-3.5 h-3.5 text-emerald-400" />
-                      <span>Order Slip Copied to Clipboard!</span>
-                    </>
-                  ) : (
-                    <>
-                      <Copy className="w-3.5 h-3.5 text-stone-300" />
-                      <span>Copy Formatted Order Details</span>
-                    </>
-                  )}
-                </button>
-
-                {orderPlaced && (
-                  <div className="text-center text-xs text-emerald-700 font-semibold bg-emerald-50 border border-emerald-200 rounded-xl p-2.5 animate-in fade-in">
-                    🎉 Order slip generated! We look forward to serving you at ESSU!
-                  </div>
-                )}
-              </div>
-
+            {/* Submit button */}
+            <div className="pt-2">
+              <button
+                type="submit"
+                className="w-full inline-flex items-center justify-center gap-2 bg-amber-400 hover:bg-amber-300 text-stone-950 font-bold text-sm py-3 px-6 rounded-xl shadow-xs transition-colors cursor-pointer"
+              >
+                <ShoppingBag className="w-4 h-4" />
+                <span>Confirm Reservation · ₱{totalPrice.toFixed(2)}</span>
+              </button>
+              <p className="text-[11px] text-stone-400 text-center mt-2">
+                Pay upon pickup at ESSU Main Campus food kiosk or break area.
+              </p>
             </div>
-
-          </div>
-        </div>
+          </form>
+        )}
 
       </div>
     </section>

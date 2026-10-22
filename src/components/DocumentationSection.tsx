@@ -1,175 +1,94 @@
-import { useState } from 'react';
-import { Camera, ZoomIn, CheckCircle2, Users, Flame, Utensils } from 'lucide-react';
-import { GALLERY_PHOTOS, DocumentationPhoto } from '../data/businessData';
+import { ZoomIn, Camera } from 'lucide-react';
+import { GALLERY_PHOTOS } from '../data/businessData';
 import { getAssetUrl } from '../utils/assetHelper';
 
 interface DocumentationSectionProps {
-  onOpenImageModal: (imgUrl: string, title: string, caption: string) => void;
+  onOpenImageModal: (imgUrl: string, title: string, caption?: string) => void;
 }
 
 export default function DocumentationSection({ onOpenImageModal }: DocumentationSectionProps) {
-  const [filter, setFilter] = useState<'all' | 'testing' | 'cooking' | 'campus'>('all');
-
-  const filteredPhotos = filter === 'all'
-    ? GALLERY_PHOTOS
-    : GALLERY_PHOTOS.filter((photo) => photo.category === filter);
-
   return (
-    <section id="documentation" className="py-20 bg-[#fdfbf6] border-b border-stone-200/80">
+    <section id="gallery" className="py-16 sm:py-20 bg-[#fffdfa] border-b border-stone-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Section Heading */}
-        <div className="text-center max-w-3xl mx-auto mb-12">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-100 text-amber-800 text-xs font-bold uppercase tracking-wider mb-3">
-            <Camera className="w-3.5 h-3.5" />
-            Photo Gallery & Proof of Work
+        {/* Header */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
+          <div>
+            <p className="text-xs font-semibold text-amber-700 uppercase tracking-wider">
+              Field Documentation
+            </p>
+            <h2 className="text-3xl sm:text-4xl font-black text-stone-900 tracking-tight font-heading mt-1">
+              From Kitchen Prep to Campus Buyers
+            </h2>
+            <p className="text-stone-600 text-sm mt-1 max-w-xl">
+              Photographic evidence of recipe testing, kitchen production, and live customer feedback at Eastern Samar State University – Borongan.
+            </p>
           </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-stone-900 tracking-tight font-heading">
-            Product & Customer Documentation
-          </h2>
-          <div className="w-16 h-1 bg-amber-500 mx-auto mt-3 mb-4 rounded-full" />
-          <p className="text-stone-600 text-base sm:text-lg leading-relaxed">
-            Real photographic documentation from our recipe formulation, sensory evaluation, deep frying procedures, and actual campus sales at Eastern Samar State University – Borongan.
-          </p>
+          <div className="text-xs text-stone-500 font-medium shrink-0">
+            Click any photo to zoom in high resolution
+          </div>
         </div>
 
-        {/* Filter Tabs */}
-        <div className="flex flex-wrap items-center justify-center gap-2 mb-10">
-          <button
-            onClick={() => setFilter('all')}
-            className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${
-              filter === 'all'
-                ? 'bg-stone-900 text-white shadow-md'
-                : 'bg-white text-stone-600 hover:bg-stone-100 border border-stone-200'
-            }`}
-          >
-            All Documentation ({GALLERY_PHOTOS.length})
-          </button>
-
-          <button
-            onClick={() => setFilter('testing')}
-            className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
-              filter === 'testing'
-                ? 'bg-amber-600 text-white shadow-md'
-                : 'bg-white text-stone-600 hover:bg-stone-100 border border-stone-200'
-            }`}
-          >
-            <Utensils className="w-3.5 h-3.5" />
-            <span>Product Testing & Sensory</span>
-          </button>
-
-          <button
-            onClick={() => setFilter('cooking')}
-            className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
-              filter === 'cooking'
-                ? 'bg-amber-600 text-white shadow-md'
-                : 'bg-white text-stone-600 hover:bg-stone-100 border border-stone-200'
-            }`}
-          >
-            <Flame className="w-3.5 h-3.5" />
-            <span>Preparation & Frying</span>
-          </button>
-
-          <button
-            onClick={() => setFilter('campus')}
-            className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
-              filter === 'campus'
-                ? 'bg-amber-600 text-white shadow-md'
-                : 'bg-white text-stone-600 hover:bg-stone-100 border border-stone-200'
-            }`}
-          >
-            <Users className="w-3.5 h-3.5" />
-            <span>Campus Sales & Customers</span>
-          </button>
-        </div>
-
-        {/* Photo Gallery Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredPhotos.map((photo: DocumentationPhoto) => (
+        {/* 4-Card Documentary Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {GALLERY_PHOTOS.slice(0, 4).map((photo) => (
             <div
               key={photo.id}
               onClick={() => onOpenImageModal(photo.imageUrl, photo.title, photo.caption)}
-              className="group bg-white rounded-2xl overflow-hidden border border-amber-200/70 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col cursor-pointer transform hover:-translate-y-1"
+              className="group cursor-pointer bg-white border border-stone-200 rounded-xl overflow-hidden shadow-xs hover:border-amber-400 transition-colors flex flex-col"
             >
-              <div className="relative aspect-4/3 overflow-hidden bg-stone-100">
+              <div className="aspect-4/3 relative overflow-hidden bg-stone-100">
                 <img
                   src={photo.imageUrl}
                   alt={photo.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                 />
-                
-                {/* Category Badge */}
-                <div className="absolute top-3 left-3">
-                  <span className={`text-[10px] font-black uppercase tracking-wider px-2.5 py-1 rounded-md shadow-sm ${
-                    photo.category === 'testing'
-                      ? 'bg-blue-600 text-white'
-                      : photo.category === 'cooking'
-                      ? 'bg-orange-600 text-white'
-                      : 'bg-emerald-600 text-white'
-                  }`}>
-                    {photo.category === 'testing' ? 'Testing' : photo.category === 'cooking' ? 'Cooking' : 'Campus'}
-                  </span>
-                </div>
-
-                {/* Hover Overlay */}
-                <div className="absolute inset-0 bg-stone-950/0 group-hover:bg-stone-950/30 transition-colors flex items-center justify-center">
-                  <span className="opacity-0 group-hover:opacity-100 transition-opacity bg-white/95 text-stone-900 text-xs font-bold px-3 py-1.5 rounded-full shadow-lg flex items-center gap-1.5">
-                    <ZoomIn className="w-3.5 h-3.5 text-amber-600" />
-                    Enlarge Image
-                  </span>
+                <div className="absolute inset-0 bg-stone-900/0 group-hover:bg-stone-900/15 transition-colors flex items-center justify-center">
+                  <div className="opacity-0 group-hover:opacity-100 transition-opacity bg-stone-900/80 text-white text-[11px] px-2.5 py-1 rounded-md flex items-center gap-1 font-medium">
+                    <ZoomIn className="w-3 h-3 text-amber-400" />
+                    <span>Zoom</span>
+                  </div>
                 </div>
               </div>
-
-              {/* Card Body */}
-              <div className="p-5 flex-1 flex flex-col justify-between">
+              <div className="p-3.5 flex-1 flex flex-col justify-between">
                 <div>
-                  <div className="text-[11px] font-semibold text-amber-700 uppercase tracking-wider mb-1">
-                    {photo.date}
-                  </div>
-                  <h3 className="font-bold text-stone-900 text-base font-heading group-hover:text-amber-600 transition-colors">
+                  <h4 className="font-bold text-stone-900 text-xs sm:text-sm line-clamp-1">
                     {photo.title}
-                  </h3>
-                  <p className="text-xs text-stone-600 mt-2 leading-relaxed">
-                    {photo.description}
+                  </h4>
+                  <p className="text-[11px] text-stone-500 mt-1 line-clamp-2 leading-relaxed">
+                    {photo.caption}
                   </p>
                 </div>
-
-                <div className="mt-4 pt-3 border-t border-stone-100 flex items-center justify-between text-[11px] text-stone-500">
-                  <span className="flex items-center gap-1 text-emerald-700 font-medium">
-                    <CheckCircle2 className="w-3.5 h-3.5" />
-                    Verified ESSU Record
-                  </span>
-                  <span className="font-semibold text-stone-400">Click to view</span>
+                <div className="text-[10px] text-amber-800 font-medium mt-2 pt-2 border-t border-stone-100">
+                  {photo.date}
                 </div>
               </div>
             </div>
           ))}
         </div>
 
-        {/* Big Documentation Portfolio Highlight */}
-        <div className="mt-12 bg-white rounded-3xl p-6 sm:p-8 border border-amber-200 shadow-sm">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-            <div className="lg:col-span-8 space-y-3">
-              <span className="px-3 py-1 rounded-full bg-amber-100 text-amber-900 text-xs font-bold">
-                Academic Evaluation Proof
-              </span>
-              <h3 className="text-xl sm:text-2xl font-black text-stone-900 font-heading">
-                Full Photographic Log Submitted in Mini Business Plan
-              </h3>
-              <p className="text-xs sm:text-sm text-stone-600 leading-relaxed">
-                As required by <strong>Elective 211 (Entrepreneurial Mind)</strong>, the team documented every single phase of development—from raw ingredient slicing, batter mixing, breadcrumb coating, deep frying, to public selling and customer taste validation at ESSU Main Campus.
+        {/* Full Portfolio Collage Strip */}
+        <div className="mt-8 border border-stone-200 bg-white p-4 sm:p-5 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-3 text-center sm:text-left">
+            <div className="w-10 h-10 rounded-xl bg-amber-100 text-amber-800 flex items-center justify-center shrink-0">
+              <Camera className="w-5 h-5" />
+            </div>
+            <div>
+              <h4 className="font-bold text-stone-900 text-sm">
+                Complete Academic Submission Collage (Page 16)
+              </h4>
+              <p className="text-xs text-stone-500">
+                Official photographic log submitted to Ms. Alexis Oliver Caraga, LPT.
               </p>
             </div>
-            <div className="lg:col-span-4 flex justify-center lg:justify-end gap-3">
-              <button
-                onClick={() => onOpenImageModal(getAssetUrl('/phase_documentation.png'), 'Phase 1 & 2 Campus Rollout Collage', 'Full documentation page 16 from the business plan showing production and campus sales.')}
-                className="inline-flex items-center gap-2 bg-stone-900 hover:bg-stone-800 text-white px-5 py-3 rounded-xl text-xs font-bold transition-colors cursor-pointer"
-              >
-                <ZoomIn className="w-4 h-4 text-amber-400" />
-                <span>View Full Phase Collage</span>
-              </button>
-            </div>
           </div>
+          <button
+            onClick={() => onOpenImageModal(getAssetUrl('/phase_documentation.png'), 'Phase 1 & 2 Campus Rollout Collage', 'Full documentation page 16 from the business plan showing production and campus sales.')}
+            className="inline-flex items-center gap-1.5 text-xs font-bold text-stone-900 bg-amber-400 hover:bg-amber-300 px-4 py-2 rounded-lg transition-colors cursor-pointer shrink-0"
+          >
+            <ZoomIn className="w-3.5 h-3.5" />
+            <span>Enlarge Full Collage</span>
+          </button>
         </div>
 
       </div>
