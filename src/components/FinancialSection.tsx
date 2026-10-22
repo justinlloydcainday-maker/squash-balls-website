@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { DollarSign, TrendingUp, Calculator, PieChart, ZoomIn, CheckCircle2, ChevronDown, ChevronUp, Layers } from 'lucide-react';
 import { DAILY_EXPENSES, REVENUE_FORECASTS, BUSINESS_INFO } from '../data/businessData';
+import { getAssetUrl } from '../utils/assetHelper';
 
 interface FinancialSectionProps {
   onOpenImageModal: (imgUrl: string, title: string, caption: string) => void;
@@ -166,7 +167,7 @@ export default function FinancialSection({ onOpenImageModal }: FinancialSectionP
                   <p className="text-xs text-stone-500">From Page 11 of Business Plan</p>
                 </div>
                 <button
-                  onClick={() => onOpenImageModal('/financial_line_graph.png', 'Financial Line Graph', 'Official financial projection chart comparing sales, expenses, and net profit.')}
+                  onClick={() => onOpenImageModal(getAssetUrl('/financial_line_graph.png'), 'Financial Line Graph', 'Official financial projection chart comparing sales, expenses, and net profit.')}
                   className="text-xs text-amber-700 hover:text-amber-800 font-bold flex items-center gap-1 cursor-pointer"
                 >
                   <ZoomIn className="w-3.5 h-3.5" />
@@ -175,11 +176,11 @@ export default function FinancialSection({ onOpenImageModal }: FinancialSectionP
               </div>
 
               <div
-                onClick={() => onOpenImageModal('/financial_line_graph.png', 'Financial Line Graph', 'Official financial projection chart comparing sales, expenses, and net profit.')}
+                onClick={() => onOpenImageModal(getAssetUrl('/financial_line_graph.png'), 'Financial Line Graph', 'Official financial projection chart comparing sales, expenses, and net profit.')}
                 className="group cursor-pointer rounded-2xl overflow-hidden border border-amber-200/70 bg-[#fffdf7] p-2 hover:border-amber-400 transition-colors"
               >
                 <img
-                  src="/financial_line_graph.png"
+                  src={getAssetUrl('/financial_line_graph.png')}
                   alt="Financial Line Graph from business plan"
                   className="w-full h-auto object-contain mx-auto group-hover:scale-[1.02] transition-transform"
                 />

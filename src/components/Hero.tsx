@@ -1,5 +1,6 @@
 import { ArrowRight, ShoppingBag, FileText, Sparkles, Heart, Award, ShieldCheck } from 'lucide-react';
 import { BUSINESS_INFO } from '../data/businessData';
+import { getAssetUrl } from '../utils/assetHelper';
 
 interface HeroProps {
   onOpenOrderModal: () => void;
@@ -116,11 +117,11 @@ export default function Hero({ onOpenOrderModal, onOpenPdfModal, onOpenImageModa
                   
                   {/* Mascot / Logo Image */}
                   <div
-                    onClick={() => onOpenImageModal('/logo.png', 'Squash Cheesy Balls Mascot Logo', 'Official brand emblem depicting the friendly squash character and golden cheesy balls.')}
+                    onClick={() => onOpenImageModal(getAssetUrl('/logo.png'), 'Squash Cheesy Balls Mascot Logo', 'Official brand emblem depicting the friendly squash character and golden cheesy balls.')}
                     className="group relative cursor-pointer mx-auto w-56 h-56 sm:w-64 sm:h-64 rounded-2xl overflow-hidden bg-gradient-to-b from-amber-50 to-orange-50 border-2 border-amber-200/60 p-2 shadow-sm transition-transform hover:scale-[1.02]"
                   >
                     <img
-                      src="/logo.png"
+                      src={getAssetUrl('/logo.png')}
                       alt="Squash Cheesy Balls Mascot and Brand Logo"
                       className="w-full h-full object-contain filter drop-shadow-md group-hover:scale-105 transition-transform duration-300"
                     />

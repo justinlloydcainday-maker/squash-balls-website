@@ -1,4 +1,5 @@
 import { GitMerge, ZoomIn, Shield, Briefcase, ChevronRight } from 'lucide-react';
+import { getAssetUrl } from '../utils/assetHelper';
 
 interface ManagementStructureProps {
   onOpenImageModal: (imgUrl: string, title: string, caption: string) => void;
@@ -128,7 +129,7 @@ export default function ManagementStructure({ onOpenImageModal }: ManagementStru
               </p>
             </div>
             <button
-              onClick={() => onOpenImageModal('/org_chart.png', 'Official Organizational Chart', 'Hierarchical organizational flow chart from page 9 of the business plan.')}
+              onClick={() => onOpenImageModal(getAssetUrl('/org_chart.png'), 'Official Organizational Chart', 'Hierarchical organizational flow chart from page 9 of the business plan.')}
               className="inline-flex items-center gap-2 bg-stone-900 hover:bg-stone-800 text-white px-4 py-2 rounded-xl text-xs font-bold transition-colors cursor-pointer shrink-0"
             >
               <ZoomIn className="w-3.5 h-3.5 text-amber-400" />
@@ -137,11 +138,11 @@ export default function ManagementStructure({ onOpenImageModal }: ManagementStru
           </div>
 
           <div
-            onClick={() => onOpenImageModal('/org_chart.png', 'Official Organizational Chart', 'Hierarchical organizational flow chart from page 9 of the business plan.')}
+            onClick={() => onOpenImageModal(getAssetUrl('/org_chart.png'), 'Official Organizational Chart', 'Hierarchical organizational flow chart from page 9 of the business plan.')}
             className="group cursor-pointer rounded-2xl overflow-hidden border border-stone-200 bg-stone-50 p-2 shadow-inner"
           >
             <img
-              src="/org_chart.png"
+              src={getAssetUrl('/org_chart.png')}
               alt="Official Management Team Org Chart"
               className="w-full h-auto object-contain max-h-72 mx-auto group-hover:scale-[1.01] transition-transform"
             />

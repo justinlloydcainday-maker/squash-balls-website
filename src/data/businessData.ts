@@ -1,3 +1,5 @@
+import { getAssetUrl } from '../utils/assetHelper';
+
 export interface TeamMember {
   name: string;
   role: string;
@@ -44,7 +46,7 @@ export const BUSINESS_INFO = {
   batchDailyCost: 700,
   batchQuantity: 100,
   sellingDays: 'Tuesdays & Thursdays (2 days/week)',
-  pdfPath: '/mini_business_plan.pdf',
+  pdfPath: getAssetUrl('/mini_business_plan.pdf'),
   facebookShareUrl: 'https://www.facebook.com/share/1EuG76VkFm/',
   permitNumber: '2026-BPLO-0094821',
   permitDate: 'January 15, 2026',
@@ -235,7 +237,7 @@ export const GALLERY_PHOTOS: DocumentationPhoto[] = [
     id: 'test-plating',
     title: 'Freshly Plated Squash Cheesy Balls',
     category: 'testing',
-    imageUrl: '/test_plating.png',
+    imageUrl: getAssetUrl('/test_plating.png'),
     description: 'Golden-fried Squash Cheesy Balls served with house dips, mayonnaise, and ketchup.',
     caption: 'Sensory evaluation & plating test during formulation stage.',
     date: 'Phase 1 - Product Development',
@@ -244,7 +246,7 @@ export const GALLERY_PHOTOS: DocumentationPhoto[] = [
     id: 'test-tasting',
     title: 'Student Team Sensory Testing',
     category: 'testing',
-    imageUrl: '/test_tasting.png',
+    imageUrl: getAssetUrl('/test_tasting.png'),
     description: 'BCSC-2A team members evaluating the cheese pull, crispiness, and flavor balance.',
     caption: 'Team taste test ensuring perfect cheese stretch and crunchy crust.',
     date: 'Phase 1 - Quality Assurance',
@@ -253,7 +255,7 @@ export const GALLERY_PHOTOS: DocumentationPhoto[] = [
     id: 'phase1-cooking',
     title: 'Golden Frying in Process',
     category: 'cooking',
-    imageUrl: '/phase1_cooking.png',
+    imageUrl: getAssetUrl('/phase1_cooking.png'),
     description: 'Squash balls immersed in deep frying oil, achieving uniform golden coloration.',
     caption: 'Frying at controlled temperature to guarantee melted cheese inside.',
     date: 'Batch 1 Production',
@@ -262,7 +264,7 @@ export const GALLERY_PHOTOS: DocumentationPhoto[] = [
     id: 'phase2-campus',
     title: 'Campus Selling & Customer Engagement',
     category: 'campus',
-    imageUrl: '/phase2_campus.png',
+    imageUrl: getAssetUrl('/phase2_campus.png'),
     description: 'Students selling Squash Cheesy Balls on ESSU Main Campus in Maypangdan.',
     caption: 'Live on-campus selling during student break hours.',
     date: 'Phase 2 - Commercial Rollout',
@@ -271,7 +273,7 @@ export const GALLERY_PHOTOS: DocumentationPhoto[] = [
     id: 'phase1-stall',
     title: 'Production Setup & Product Testing Collage',
     category: 'testing',
-    imageUrl: '/product_testing.png',
+    imageUrl: getAssetUrl('/product_testing.png'),
     description: 'Full documentation collage showing ingredients, mashing, and cooking validation.',
     caption: 'Documented evidence of product formulation in Elective 211.',
     date: 'Product Testing Record',
@@ -280,7 +282,7 @@ export const GALLERY_PHOTOS: DocumentationPhoto[] = [
     id: 'phase2-rollout',
     title: 'Phase 1 & Phase 2 Full Rollout Collage',
     category: 'campus',
-    imageUrl: '/phase_documentation.png',
+    imageUrl: getAssetUrl('/phase_documentation.png'),
     description: 'Comprehensive photographic log of production, ribbon cutting, and campus buyers.',
     caption: 'Complete Phase 1 & 2 documentation submitted to instructor Ms. Alexis Oliver Caraga.',
     date: 'Academic Business Portfolio',

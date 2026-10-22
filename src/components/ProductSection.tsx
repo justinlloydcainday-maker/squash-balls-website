@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { ShoppingBag, Check, Sparkles, Utensils, Award, ShieldAlert } from 'lucide-react';
 import { DAILY_EXPENSES, BUSINESS_INFO } from '../data/businessData';
+import { getAssetUrl } from '../utils/assetHelper';
 
 interface ProductSectionProps {
   onOpenOrderModal: () => void;
@@ -36,11 +37,11 @@ export default function ProductSection({ onOpenOrderModal, onOpenImageModal }: P
             {/* Product Image Showcase */}
             <div className="lg:col-span-5 space-y-4">
               <div
-                onClick={() => onOpenImageModal('/test_plating.png', 'Squash Cheesy Balls Plating', 'Golden-fried Squash Cheesy Balls served with garlic mayonnaise and ketchup dips.')}
+                onClick={() => onOpenImageModal(getAssetUrl('/test_plating.png'), 'Squash Cheesy Balls Plating', 'Golden-fried Squash Cheesy Balls served with garlic mayonnaise and ketchup dips.')}
                 className="group relative cursor-pointer rounded-2xl overflow-hidden shadow-md border-2 border-amber-200 bg-amber-50 aspect-4/3 flex items-center justify-center"
               >
                 <img
-                  src="/test_plating.png"
+                  src={getAssetUrl('/test_plating.png')}
                   alt="Freshly Cooked Squash Cheesy Balls"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
@@ -57,22 +58,22 @@ export default function ProductSection({ onOpenOrderModal, onOpenImageModal }: P
               {/* Thumbnail Strip */}
               <div className="grid grid-cols-3 gap-2 text-center text-xs font-semibold">
                 <div
-                  onClick={() => onOpenImageModal('/phase1_cooking.png', 'Deep Frying Squash Balls', 'Evenly fried in pure hot vegetable oil until crisp and golden brown.')}
+                  onClick={() => onOpenImageModal(getAssetUrl('/phase1_cooking.png'), 'Deep Frying Squash Balls', 'Evenly fried in pure hot vegetable oil until crisp and golden brown.')}
                   className="cursor-pointer rounded-xl overflow-hidden border border-amber-200/80 aspect-video group"
                 >
-                  <img src="/phase1_cooking.png" alt="Cooking" className="w-full h-full object-cover group-hover:scale-110 transition-transform" />
+                  <img src={getAssetUrl('/phase1_cooking.png')} alt="Cooking" className="w-full h-full object-cover group-hover:scale-110 transition-transform" />
                 </div>
                 <div
-                  onClick={() => onOpenImageModal('/test_tasting.png', 'Product Sensory Test', 'Team members evaluating the cheese pull and crispy outer shell.')}
+                  onClick={() => onOpenImageModal(getAssetUrl('/test_tasting.png'), 'Product Sensory Test', 'Team members evaluating the cheese pull and crispy outer shell.')}
                   className="cursor-pointer rounded-xl overflow-hidden border border-amber-200/80 aspect-video group"
                 >
-                  <img src="/test_tasting.png" alt="Tasting" className="w-full h-full object-cover group-hover:scale-110 transition-transform" />
+                  <img src={getAssetUrl('/test_tasting.png')} alt="Tasting" className="w-full h-full object-cover group-hover:scale-110 transition-transform" />
                 </div>
                 <div
-                  onClick={() => onOpenImageModal('/test_squash.png', 'Fresh Squash Ingredient', 'Wholesome local squash picked for freshness.')}
+                  onClick={() => onOpenImageModal(getAssetUrl('/test_squash.png'), 'Fresh Squash Ingredient', 'Wholesome local squash picked for freshness.')}
                   className="cursor-pointer rounded-xl overflow-hidden border border-amber-200/80 aspect-video group"
                 >
-                  <img src="/test_squash.png" alt="Squash" className="w-full h-full object-cover group-hover:scale-110 transition-transform" />
+                  <img src={getAssetUrl('/test_squash.png')} alt="Squash" className="w-full h-full object-cover group-hover:scale-110 transition-transform" />
                 </div>
               </div>
             </div>

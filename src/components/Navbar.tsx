@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Menu, X, ShoppingBag, FileText, Sparkles } from 'lucide-react';
 import { BUSINESS_INFO } from '../data/businessData';
+import { getAssetUrl } from '../utils/assetHelper';
 
 interface NavbarProps {
   onOpenOrderModal: () => void;
@@ -78,7 +79,7 @@ export default function Navbar({ onOpenOrderModal, onOpenPdfModal }: NavbarProps
             >
               <div className="relative w-11 h-11 rounded-full bg-gradient-to-br from-amber-400 to-amber-600 p-0.5 shadow-md group-hover:scale-105 transition-transform">
                 <img
-                  src="/logo.png"
+                  src={getAssetUrl('/logo.png')}
                   alt="Squash Cheesy Balls Logo"
                   className="w-full h-full object-cover rounded-full bg-amber-100"
                 />

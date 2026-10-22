@@ -1,5 +1,6 @@
 import { FileCheck, ShieldAlert, ZoomIn, ExternalLink, Scale, CheckCircle2 } from 'lucide-react';
 import { LEGAL_DOSSIER_ITEMS, BUSINESS_INFO } from '../data/businessData';
+import { getAssetUrl } from '../utils/assetHelper';
 
 interface PermitsSectionProps {
   onOpenImageModal: (imgUrl: string, title: string, caption: string) => void;
@@ -61,7 +62,7 @@ export default function PermitsSection({ onOpenImageModal, onOpenPdfModal }: Per
                 </p>
               </div>
               <button
-                onClick={() => onOpenImageModal('/business_permit.png', "Mayor's Business Permit (Borongan)", 'Official mock Business Permit table submitted in mini business plan page 17.')}
+                onClick={() => onOpenImageModal(getAssetUrl('/business_permit.png'), "Mayor's Business Permit (Borongan)", 'Official mock Business Permit table submitted in mini business plan page 17.')}
                 className="inline-flex items-center gap-1.5 bg-stone-900 hover:bg-stone-800 text-white px-3.5 py-1.5 rounded-xl text-xs font-bold transition-colors cursor-pointer shrink-0"
               >
                 <ZoomIn className="w-3.5 h-3.5 text-amber-400" />
@@ -71,11 +72,11 @@ export default function PermitsSection({ onOpenImageModal, onOpenPdfModal }: Per
 
             {/* Document Image with click to enlarge */}
             <div
-              onClick={() => onOpenImageModal('/business_permit.png', "Mayor's Business Permit (Borongan)", 'Official mock Business Permit table submitted in mini business plan page 17.')}
+              onClick={() => onOpenImageModal(getAssetUrl('/business_permit.png'), "Mayor's Business Permit (Borongan)", 'Official mock Business Permit table submitted in mini business plan page 17.')}
               className="group cursor-pointer rounded-2xl overflow-hidden border border-stone-200 bg-white p-2 shadow-inner hover:border-amber-400 transition-colors"
             >
               <img
-                src="/business_permit.png"
+                src={getAssetUrl('/business_permit.png')}
                 alt="Business Permit Mock Document"
                 className="w-full h-auto object-contain mx-auto group-hover:scale-[1.01] transition-transform duration-300"
               />
@@ -127,7 +128,7 @@ export default function PermitsSection({ onOpenImageModal, onOpenPdfModal }: Per
                   <p className="text-xs text-stone-500">Documented in Page 18 of Plan</p>
                 </div>
                 <button
-                  onClick={() => onOpenImageModal('/regulatory_dossier.png', 'Legal & Regulatory Considerations Dossier', 'Full regulatory compliance list from page 18 of the business plan.')}
+                  onClick={() => onOpenImageModal(getAssetUrl('/regulatory_dossier.png'), 'Legal & Regulatory Considerations Dossier', 'Full regulatory compliance list from page 18 of the business plan.')}
                   className="text-xs text-amber-700 hover:text-amber-800 font-bold flex items-center gap-1 cursor-pointer"
                 >
                   <ZoomIn className="w-3.5 h-3.5" />
@@ -136,11 +137,11 @@ export default function PermitsSection({ onOpenImageModal, onOpenPdfModal }: Per
               </div>
 
               <div
-                onClick={() => onOpenImageModal('/regulatory_dossier.png', 'Legal & Regulatory Considerations Dossier', 'Full regulatory compliance list from page 18 of the business plan.')}
+                onClick={() => onOpenImageModal(getAssetUrl('/regulatory_dossier.png'), 'Legal & Regulatory Considerations Dossier', 'Full regulatory compliance list from page 18 of the business plan.')}
                 className="group cursor-pointer rounded-2xl overflow-hidden border border-stone-200 bg-white p-2 hover:border-amber-400 transition-colors"
               >
                 <img
-                  src="/regulatory_dossier.png"
+                  src={getAssetUrl('/regulatory_dossier.png')}
                   alt="Regulatory Dossier from business plan"
                   className="w-full h-auto object-contain mx-auto group-hover:scale-[1.01] transition-transform"
                 />

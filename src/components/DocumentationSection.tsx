@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Camera, ZoomIn, CheckCircle2, Users, Flame, Utensils } from 'lucide-react';
 import { GALLERY_PHOTOS, DocumentationPhoto } from '../data/businessData';
+import { getAssetUrl } from '../utils/assetHelper';
 
 interface DocumentationSectionProps {
   onOpenImageModal: (imgUrl: string, title: string, caption: string) => void;
@@ -161,7 +162,7 @@ export default function DocumentationSection({ onOpenImageModal }: Documentation
             </div>
             <div className="lg:col-span-4 flex justify-center lg:justify-end gap-3">
               <button
-                onClick={() => onOpenImageModal('/phase_documentation.png', 'Phase 1 & 2 Campus Rollout Collage', 'Full documentation page 16 from the business plan showing production and campus sales.')}
+                onClick={() => onOpenImageModal(getAssetUrl('/phase_documentation.png'), 'Phase 1 & 2 Campus Rollout Collage', 'Full documentation page 16 from the business plan showing production and campus sales.')}
                 className="inline-flex items-center gap-2 bg-stone-900 hover:bg-stone-800 text-white px-5 py-3 rounded-xl text-xs font-bold transition-colors cursor-pointer"
               >
                 <ZoomIn className="w-4 h-4 text-amber-400" />

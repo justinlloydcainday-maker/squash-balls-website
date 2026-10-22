@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { X, FileText, Download, ExternalLink, ChevronLeft, ChevronRight } from 'lucide-react';
 import { BUSINESS_INFO } from '../data/businessData';
+import { getAssetUrl } from '../utils/assetHelper';
 
 interface PDFViewerModalProps {
   isOpen: boolean;
@@ -30,7 +31,7 @@ export default function PDFViewerModal({ isOpen, onClose }: PDFViewerModalProps)
   if (!isOpen) return null;
 
   const paddedPage = String(currentPage).padStart(2, '0');
-  const pageImagePath = `/page_${paddedPage}.png`;
+  const pageImagePath = getAssetUrl(`/page_${paddedPage}.png`);
 
   return (
     <div
@@ -59,7 +60,7 @@ export default function PDFViewerModal({ isOpen, onClose }: PDFViewerModalProps)
 
           <div className="flex items-center gap-2">
             <a
-              href="/mini_business_plan.pdf"
+              href={getAssetUrl('/mini_business_plan.pdf')}
               download="Squash_Cheesy_Balls_Mini_Business_Plan.pdf"
               className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-stone-950 text-xs font-bold transition-colors"
             >
@@ -68,7 +69,7 @@ export default function PDFViewerModal({ isOpen, onClose }: PDFViewerModalProps)
             </a>
 
             <a
-              href="/mini_business_plan.pdf"
+              href={getAssetUrl('/mini_business_plan.pdf')}
               target="_blank"
               rel="noopener noreferrer"
               className="p-1.5 rounded-lg bg-stone-800 text-stone-300 hover:text-white text-xs flex items-center gap-1"
