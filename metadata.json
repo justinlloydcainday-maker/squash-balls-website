@@ -1,0 +1,8 @@
+{
+  "name": "Remix Squash Cheesy Balls - Crispy Outside, Cheesy Inside",
+  "description": "Official website and business showcase for Squash Cheesy Balls, an entrepreneurial food venture by BCSC-2A students of Eastern Samar State University (ESSU) – Borongan.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
